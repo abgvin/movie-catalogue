@@ -1,7 +1,9 @@
+/* eslint-disable no-undef */
 import UrlParser from '../../routes/url-parser';
 import TheMovieDbSource from '../../data/themoviedb-source';
 import { createMovieDetailTemplate } from '../templates/template-creator';
 import LikeButtonInitiator from '../../utils/like-button-presenter';
+import FavoriteMovieIdb from '../../data/favorite-movie-idb';
 
 const Detail = {
   async render() {
@@ -19,6 +21,7 @@ const Detail = {
 
     LikeButtonInitiator.init({
       likeButtonContainer: document.querySelector('#likeButtonContainer'),
+      favoriteMovies: FavoriteMovieIdb,
       movie: {
         id: movie.id,
         title: movie.title,
