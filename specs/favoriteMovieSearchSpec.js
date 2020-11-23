@@ -62,8 +62,27 @@ describe('Searching movies', () => {
 
   it('should show - for found movie without title', () => {
     presenter._showFoundMovies([{ id: 1 }]);
-   
+
     expect(document.querySelectorAll('.movie__title').item(0).textContent)
       .toEqual('-');
+  });
+
+  it('should show the name of the movies found by Favorite Movies', (done) => {
+    document.getElementById('movie-search-container').addEventListener('movies:searched:updated', () => {
+      const movieTitles = document.querySelectorAll('.movie__title');
+      expect(movieTitles.item(0).textContent).toEqual('film abc');
+      expect(movieTitles.item(1).textContent).toEqual('ada juga film abcde');
+      expect(movieTitles.item(2).textContent).toEqual('ini juga boleh film a');
+
+      done();
+    });
+
+    FavoriteMovieIdb.searchMovies.withArgs('film a').and.returnValues([
+      { id: 111, title: 'film abc' },
+      { id: 222, title: 'ada juga film abcde' },
+      { id: 333, title: 'ini juga boleh film a' },
+    ]);
+
+    searchMovies('film a');
   });
 });

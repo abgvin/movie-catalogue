@@ -19,15 +19,21 @@ class FavoriteMovieSearchPresenter {
     );
 
     document.querySelector('.movies').innerHTML = html;
-  }
 
-  _searchMovies(latestQuery) {
-    this._latestQuery = latestQuery;
-    this._favoriteMovies.searchMovies(this.latestQuery);
+    document.getElementById('movie-search-container')
+      .dispatchEvent(new Event('movies:searched:updated'));
   }
 
   get latestQuery() {
     return this._latestQuery;
+  }
+
+  async _searchMovies(latestQuery) {
+    this._latestQuery = latestQuery;
+
+    const foundMovies = await this._favoriteMovies.searchMovies(this.latestQuery);
+
+    this._showFoundMovies(foundMovies);
   }
 }
 
