@@ -25,13 +25,18 @@ class FavoriteMovieSearchPresenter {
   }
 
   get latestQuery() {
-    return this._latestQuery;
+    return this._latestQuery.trim();
   }
 
   async _searchMovies(latestQuery) {
-    this._latestQuery = latestQuery;
+    this._latestQuery = latestQuery.trim();
 
-    const foundMovies = await this._favoriteMovies.searchMovies(this.latestQuery);
+    let foundMovies;
+    if (this.latestQuery.length > 0) {
+      foundMovies = await this._favoriteMovies.searchMovies(this.latestQuery);
+    } else {
+      foundMovies = await this._favoriteMovies.getAllMovies();
+    }
 
     this._showFoundMovies(foundMovies);
   }
